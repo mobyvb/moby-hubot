@@ -32,7 +32,7 @@ module.exports = function(robot) {
     res.send('Stopping meeting.');
 
     var meetingInfo = robot.meetings[room];
-    var meetingSummary = '```';
+    var meetingSummary = '```\n';
     meetingSummary += 'Topics:\n';
     for (var i=0; i<meetingInfo.topics.length; i++) {
       var topic = meetingInfo.topics[i];

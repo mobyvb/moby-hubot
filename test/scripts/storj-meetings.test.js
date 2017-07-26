@@ -233,7 +233,7 @@ describe('Meetings', function() {
         } else if (count === 1) {
           expect(strings[0]).to.equal('Meeting summary:');
         } else {
-          expect(strings[0]).to.equal('```Topics:\ntest topic\n\tAction Items:\n\ttest action\n```');
+          expect(strings[0]).to.equal('```\nTopics:\ntest topic\n\tAction Items:\n\ttest action\n```');
           expect(robot.meetings['#dev']).to.equal(null);
           done();
         }
