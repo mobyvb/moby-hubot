@@ -13,6 +13,7 @@ describe('Meetings', function() {
   var robot;
   var user1;
   var user2;
+  var user3;
   var adapter;
 
   beforeEach(function(done) {
@@ -35,6 +36,11 @@ describe('Meetings', function() {
         room: '#dev'
       });
 
+      user3 = robot.brain.userForId('3', {
+        name: 'jimbo',
+        room: '#jimbosroom'
+      });
+
       adapter = robot.adapter;
 
       done();
@@ -55,10 +61,10 @@ describe('Meetings', function() {
         leader: 'bob'
       };
 
-      expect(robot.meetingInfo).to.equal(undefined);
+      expect(robot.meetings).to.equal(undefined);
 
       adapter.on('send', function(envelope, strings) {
-        expect(robot.meetingInfo).to.deep.equal(testMeetingInfo);
+        expect(robot.meetings['#dev']).to.deep.equal(testMeetingInfo);
         expect(strings[0]).to.equal('Starting meeting with leader bob.');
         done();
       });
@@ -66,7 +72,7 @@ describe('Meetings', function() {
       adapter.receive(new TextMessage(user1, '[startmeeting]'));
     });
 
-    it('should not start a meeting if one is ongoing', function(done) {
+    it('should not start a meeting in the same channel if one is ongoing', function(done) {
       var count = 0;
       adapter.on('send', function(envelope, strings) {
         if (count === 0) {
@@ -81,6 +87,36 @@ describe('Meetings', function() {
       adapter.receive(new TextMessage(user1, '[startmeeting]'));
       adapter.receive(new TextMessage(user1, '[startmeeting]'));
     });
+
+    it('should be able to start simultaneous meetings in different channels', function(done) {
+      var testMeetingInfo1 = {
+        topics: [],
+        currentTopic: -1,
+        leader: 'bob'
+      };
+
+      var testMeetingInfo2 = {
+        topics: [],
+        currentTopic: -1,
+        leader: 'jimbo'
+      };
+
+      var count = 0;
+      adapter.on('send', function(envelope, strings) {
+        if (count === 0) {
+          expect(robot.meetings['#dev']).to.deep.equal(testMeetingInfo1);
+          expect(strings[0]).to.equal('Starting meeting with leader bob.');
+        } else {
+          expect(robot.meetings['#jimbosroom']).to.deep.equal(testMeetingInfo2);
+          expect(strings[0]).to.equal('Starting meeting with leader jimbo.');
+          done();
+        }
+        count++;
+      });
+
+      adapter.receive(new TextMessage(user1, '[startmeeting]'));
+      adapter.receive(new TextMessage(user3, '[startmeeting]'));
+    });
   });
 
   describe('topic', function() {
@@ -90,7 +126,7 @@ describe('Meetings', function() {
         if (count === 0) {
           expect(strings[0]).to.equal('Starting meeting with leader bob.');
         } else {
-          expect(robot.meetingInfo.topics[0].name).to.equal('test topic');
+          expect(robot.meetings['#dev'].topics[0].name).to.equal('test topic');
           expect(strings[0]).to.equal('Setting topic to "test topic"');
           done();
         }
@@ -116,7 +152,7 @@ describe('Meetings', function() {
         if (count === 0) {
           expect(strings[0]).to.equal('Starting meeting with leader bob.');
         } else {
-          expect(robot.meetingInfo.topics.length).to.equal(0);
+          expect(robot.meetings['#dev'].topics.length).to.equal(0);
           expect(strings[0]).to.equal('Only bob can change the topic.');
           done();
         }
@@ -135,10 +171,10 @@ describe('Meetings', function() {
         if (count === 0) {
           expect(strings[0]).to.equal('Starting meeting with leader bob.');
         } else if (count === 1) {
-          expect(robot.meetingInfo.topics[0].name).to.equal('test topic');
+          expect(robot.meetings['#dev'].topics[0].name).to.equal('test topic');
           expect(strings[0]).to.equal('Setting topic to "test topic"');
         } else {
-          expect(robot.meetingInfo.topics[0].actionItems[0]).to.equal('test action');
+          expect(robot.meetings['#dev'].topics[0].actionItems[0]).to.equal('test action');
           expect(strings[0]).to.equal('Adding action item "test action" to topic "test topic"');
           done();
         }
@@ -178,7 +214,8 @@ describe('Meetings', function() {
 
   describe('endmeeting', function() {
     it('should end a meeting with [endmeeting]', function(done) {
-      robot.meetingInfo = {
+      robot.meetings = {};
+      robot.meetings['#dev'] = {
         topics: [
           {
             name: 'test topic',
@@ -197,7 +234,7 @@ describe('Meetings', function() {
           expect(strings[0]).to.equal('Meeting summary:');
         } else {
           expect(strings[0]).to.equal('```Topics:\ntest topic\n\tAction Items:\n\ttest action\n```');
-          expect(robot.meetingInfo).to.equal(null);
+          expect(robot.meetings['#dev']).to.equal(null);
           done();
         }
         count++;
