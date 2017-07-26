@@ -23,7 +23,7 @@ describe('Meetings', function() {
     robot.adapter.on('connected', function() {
       process.env.HUBOT_AUTH_ADMIN = '1';
 
-      require('../../scripts/meetings')(robot);
+      require('../../scripts/storj-meetings')(robot);
 
       // create a user
       user1 = robot.brain.userForId('1', {

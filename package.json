@@ -52,7 +52,7 @@
   "scripts": {
     "start": "bin/hubot",
     "test": "nyc --reporter=html --reporter=text mocha",
-    "test-scripts": "./node_modules/.bin/mocha ./test/scripts/*.js --compilers coffee:coffee-script",
+    "test-scripts": "./node_modules/.bin/mocha ./test/scripts/*.test.js --compilers coffee:coffee-script",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "test:smoke": "node src/**/*.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
