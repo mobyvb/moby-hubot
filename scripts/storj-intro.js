@@ -1,4 +1,4 @@
-var introResponses = require('./data/intro-responses.js');
+var introResponses = require('./data/callresponse.js');
 var validRooms = /Shell|#storjioshouse/;
 
 module.exports = function(robot) {

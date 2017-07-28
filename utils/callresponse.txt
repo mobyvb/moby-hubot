@@ -1,0 +1,83 @@
+call
+/^update$/i
+response
+All Storj packages can be found on our github repository here: github.com/Storj.
+
+Are you looking for how to update a specific package?, type in “Help update”.
+call
+/^(help update)|(update storj)$/i
+response
+Type in the following commands to get info on updating specific Storj packages:
+
+  1. “Update Storj Share GUI”
+  2. “Update Storj Share-daemon CLI”
+  3. “Update FileZilla”
+  4. “Update Libstorj”
+  5. “Update Community GUI”
+
+For info on updating packages not on this list please ask in the respective Rocketchat channel.
+call
+/^update storj( |)share gui$/i
+response
+To update Storj Share GUI do the following:
+
+  1. Click on “View” -> “Check for Updates”.
+  2. Once the popup appears click on “yes”below “Would you like to download the update now?”.
+  3. Now a Web-page should open which brings you to the Storj Share GUI github repository. Download the latest version for your system.
+  4. Click on “File” -> “Quit”.
+  5. Once Storj Share GUI quits install the newly downloaded executable and install it.
+
+Further Storj Share (GUI) documentation can be found [here](https://docs.storj.io/v1.1/docs/storj-share-gui).
+
+If you have any other Storj Share (GUI) released questions please join the #storjshare channel
+call
+/^update storj( |)share( |-)daemon cli$/i
+response
+  1. `storjshare save`
+  2. `storjshare killall`
+  3. `npm install -g storjshare-daemon`
+
+Once the new version is installed execute the following commands to start the node:
+
+  1. `storjshare daemon`
+  2. `storjshare load`
+
+The node(s) should now start, to check if the nodes are running correctly execute the following command:
+
+  `storjshare status`
+
+Further Storj Share-daemon (CLI) documentation can be found [here](https://docs.storj.io/v1.1/docs/storj-share-daemon-cli).
+
+If you have any other Storj Share-damon (CLI) released questions please join the #storjshare channel
+call
+/^update filezilla$/i
+response
+FileZilla will automatically prompt you if a new update is available when you restart it.
+
+For more info on FileZilla please consult the official documentation in the links below:
+
+  1. https://wiki.filezilla-project.org/Documentation
+  2. https://docs.storj.io/v1.1/docs/filezilla-getting-started
+  3. https://wiki.filezilla-project.org/Storj
+call
+/^update libstorj$/i
+response
+The latest Libstorj release for your specific OS can be found [here](https://github.com/Storj/libstorj/releases)
+call
+/^update community gui$/i
+response
+The latest community made GUI release for up-and downloading for your specific OS can be found [here](https://github.com/lakewik/storj_gui_client/releases)
+call
+/^(faq)|(frequently asked questions)$/i
+response
+The Storj FAQ can be found [here](https://storj.io/faq).
+call
+/^newbie$/i
+response
+newbie Looks like we have a new user.
+
+
+  1. Put up a profile picture, we like pics especially of cats.
+  2. Fill in the New volunteer Form if you have some skills to offer: goo.gl/pr1nYQ.
+  3. When entering new channels first scroll up and read previous comments before repeating the same questions that have already been answered.
+  4. Have fun and respect others' opinion!
