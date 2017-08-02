@@ -26,7 +26,8 @@
     "express": "^3.21.2",
     "log": "1.4.0",
     "optparse": "1.0.4",
-    "scoped-http-client": "0.11.0"
+    "scoped-http-client": "0.11.0",
+    "sqlite3": "^3.1.8"
   },
   "devDependencies": {
     "chai": "~2.1.0",
